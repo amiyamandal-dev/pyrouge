@@ -584,12 +584,16 @@ class Rouge155(object):
     def __add_config_option(self, options):
         return options + ['-m'] + [self._config_file]
 
+    def __get_current_dir(self):
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        return dir_path
+
     def __get_config_path(self):
         if platform.system() == "Windows":
-            parent_dir = os.getenv("APPDATA")
+            parent_dir = self.__get_current_dir()
             config_dir_name = "pyrouge"
         elif os.name == "posix":
-            parent_dir = os.path.expanduser("~")
+            parent_dir = self.__get_current_dir()
             config_dir_name = ".pyrouge"
         else:
             parent_dir = os.path.dirname(__file__)
@@ -597,7 +601,7 @@ class Rouge155(object):
         config_dir = os.path.join(parent_dir, config_dir_name)
         if not os.path.exists(config_dir):
             os.makedirs(config_dir)
-        return os.path.join(config_dir, 'settings.ini')
+        return os.path.join(config_dir, 'settings.ini')``
 
 
 if __name__ == "__main__":
